@@ -1,0 +1,12 @@
+.header {
+  height: 4em;
+  width: 100vw;
+  background: #7cfc00;
+  display: flex;
+}
+
+.links a {
+  margin: 0 .5em;
+}
+
+/*# sourceMappingURL=index.0c9c100e.css.map */

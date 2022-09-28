@@ -1,0 +1,1 @@
+{"mappings":"AAAA","sources":["src/css/sort.css"],"sourcesContent":[".sortCanvas {\r\n    /* background-color: aqua; */\r\n    margin: 1.5em;\r\n    box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);\r\n}"],"names":[],"version":3,"file":"index.10558282.css.map","sourceRoot":"/__parcel_source_root/"}

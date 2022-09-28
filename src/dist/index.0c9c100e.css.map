@@ -1,0 +1,1 @@
+{"mappings":"AAAA;;;;;;;AAOA","sources":["src/css/header.css"],"sourcesContent":[".header {\r\n    display: flex;\r\n    height: 4em;\r\n    width: 100vw;\r\n    background: lawngreen;\r\n}\r\n\r\n.links a {\r\n    margin: 0  .5em;\r\n}\r\n"],"names":[],"version":3,"file":"index.0c9c100e.css.map","sourceRoot":"/__parcel_source_root/"}

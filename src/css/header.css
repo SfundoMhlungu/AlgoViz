@@ -1,0 +1,49 @@
+.header {
+    display: flex;
+    height: 4em;
+    width: 100vw;
+    background: white;
+}
+
+.links a {
+    position: relative;
+    /* margin: 0  .5em; */
+    color:  hsl(233, 8%, 62%);
+    transition: color 300ms ease-in-out;
+}
+
+
+a:not(:last-child){
+    margin-right: 2em;
+}
+
+a::before{
+    content: "";
+    position: absolute;
+    height: 5px;
+
+    left: 0;
+    right: 0;
+    bottom: -30px;
+    background:  linear-gradient(to right, hsl(136, 65%, 51%), hsl(192, 70%, 51%));
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+a:hover{
+    color: hsl(233, 26%, 24%);
+}
+
+a:hover::before{
+    opacity: 1;
+}
+
+
+/* // $darkBlue: hsl(233, 26%, 24%);
+// $limeGreen: hsl(136, 65%, 51%);
+// $brightCyan: hsl(192, 70%, 51%);
+
+// $grayishBlue: hsl(233, 8%, 62%);
+// $lightGrayishBlue: hsl(220, 16%, 96%);
+// $veryLightGray: hsl(0, 0%, 98%);
+// $white:  hsl(0, 0%, 100%); */
