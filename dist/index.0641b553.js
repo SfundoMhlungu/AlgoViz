@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"dXqSh":[function(require,module,exports) {
+})({"2Ah9o":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "37cedcabe753175e";
+module.bundle.HMR_BUNDLE_ID = "fe4256060641b553";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
@@ -556,11 +556,13 @@ const router = (data)=>{
     }
     switch(data.route){
         case "views/sort":
+            (0, _octopusDefault.default).notify("sort");
             const sortV = (0, _views.SortView)();
             app.appendChild(sortV);
             cache.set(data.route, sortV);
             break;
         case "views/graphs":
+            (0, _octopusDefault.default).notify("graphs");
             const searchV = (0, _views.SearchView)();
             // console.log(searchV, "search view")
             app.appendChild(searchV);
@@ -573,6 +575,7 @@ const router = (data)=>{
 router({
     route: "views/sort"
 });
+// Pub.notify("graphs")
 (0, _octopusDefault.default).subscribe("view", (data)=>{
     // console.log("da", data)
     router(data);
@@ -757,6 +760,8 @@ var _canvas = require("../components/Canvas");
 var _canvasDefault = parcelHelpers.interopDefault(_canvas);
 var _esm = require("atomicus/lib/esm");
 var _comlink = require("comlink");
+var _octopus = require("../Octopus");
+var _octopusDefault = parcelHelpers.interopDefault(_octopus);
 const wh = {
     width: "300px",
     height: "300px"
@@ -859,7 +864,7 @@ async function initBubble() {
         }
     }
     const b = setInterval(()=>{
-        console.log("bubble", b);
+        //    console.log("bubble", b)
         // 
         if (insertionDone) {
             console.log("insertion done");
@@ -868,8 +873,10 @@ async function initBubble() {
         update(b);
     }, 1);
 }
-// init()
-// initBubble()
+(0, _octopusDefault.default).subscribe("sort", ()=>{
+    init();
+    initBubble();
+});
 function eachCanvasParent(canvas, title) {
     return {
         tag: "div",
@@ -904,14 +911,13 @@ function Sort(data) {
         },
         children: [
             canvasWrapper(bubbleSort, "Bubble Sort - O**n"),
-            canvasWrapper(insertionSort, "Insertion Sort O**n"),
-            canvasWrapper(mergeSort, "")
+            canvasWrapper(insertionSort, "Insertion Sort O**n")
         ]
     };
 }
 exports.default = Sort;
 
-},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","ef3b80f7c5a715e5":"8pmu4","75c298847eda8e64":"aTWsk","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"eE5PI":[function(require,module,exports) {
+},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","ef3b80f7c5a715e5":"635VY","75c298847eda8e64":"l1lKa","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku","../Octopus":"2DffO"}],"eE5PI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function Canvas(data) {
@@ -1235,10 +1241,10 @@ function generateUUID() {
     return new Array(4).fill(0).map(()=>Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)).join("-");
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"8pmu4":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"635VY":[function(require,module,exports) {
 let workerURL = require("./helpers/get-worker-url");
 let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "sel-insertSort.748b9a74.js" + "?" + Date.now();
+let url = bundleURL.getBundleURL("lPpKD") + "sel-insertSort.84efd6e9.js" + "?" + Date.now();
 module.exports = workerURL(url, bundleURL.getOrigin(url), false);
 
 },{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"lwj1n":[function(require,module,exports) {
@@ -1292,10 +1298,10 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"aTWsk":[function(require,module,exports) {
+},{}],"l1lKa":[function(require,module,exports) {
 let workerURL = require("./helpers/get-worker-url");
 let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "bubble.8129b1a0.js" + "?" + Date.now();
+let url = bundleURL.getBundleURL("lPpKD") + "bubble.53346764.js" + "?" + Date.now();
 module.exports = workerURL(url, bundleURL.getOrigin(url), false);
 
 },{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"8D5wM":[function(require,module,exports) {
@@ -1324,6 +1330,8 @@ var _canvasDefault = parcelHelpers.interopDefault(_canvas);
 var _esm = require("atomicus/lib/esm");
 var _comlink = require("comlink");
 var _waitforSecs = require("../utils/waitforSecs");
+var _octopus = require("../Octopus");
+var _octopusDefault = parcelHelpers.interopDefault(_octopus);
 const wh = {
     width: "300px",
     height: "300px"
@@ -1331,6 +1339,9 @@ const wh = {
 /**
  * @type {HTMLCanvasElement}
  */ const BFS = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
+/**
+ * @type {HTMLCanvasElement}
+ */ const DFS = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
 const BFSctx = BFS.getContext("2d");
 // console.log(BFS)
 async function init() {
@@ -1344,10 +1355,27 @@ async function init() {
             BFSctx.fillRect(j * w, i * w, w, w);
         });
     });
-    async function update() {}
-//await Wait(1);
+    async function update() {
+        let next = await BFSObject.BFSnext.next();
+        if (next.done) {
+            console.log("BFS done");
+            return;
+        }
+        //  console.log(next)
+        if (Array.isArray(next.value) && !next.done) next.value.forEach((row, i)=>{
+            row.forEach((cell, j)=>{
+                BFSctx.fillStyle = cell.color;
+                BFSctx.fillRect(j * w, i * w, w, w);
+            });
+        });
+        await (0, _waitforSecs.Wait)(.01);
+        await update();
+    }
+    update();
 }
-init();
+(0, _octopusDefault.default).subscribe("graphs", ()=>{
+    init();
+});
 // apply DRY same as Sort code 
 function eachCanvasParent(canvas, title) {
     return {
@@ -1382,13 +1410,14 @@ function Graphs(data) {
             class: "grid-ish"
         },
         children: [
-            canvasWrapper(BFS, "Breadth First")
+            canvasWrapper(BFS, "Breadth First Search"),
+            canvasWrapper(DFS, "Depth First Search")
         ]
     };
 }
 exports.default = Graphs;
 
-},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","../utils/waitforSecs":"kPbm5","a9cd42fc769a1b68":"knkE2","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"kPbm5":[function(require,module,exports) {
+},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","../utils/waitforSecs":"kPbm5","a9cd42fc769a1b68":"aN4VI","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku","../Octopus":"2DffO"}],"kPbm5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Wait", ()=>Wait);
@@ -1398,10 +1427,10 @@ const Wait = (seconds)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"knkE2":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"aN4VI":[function(require,module,exports) {
 let workerURL = require("./helpers/get-worker-url");
 let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "BFS.9457898d.js" + "?" + Date.now();
+let url = bundleURL.getBundleURL("lPpKD") + "BFS.efd6859e.js" + "?" + Date.now();
 module.exports = workerURL(url, bundleURL.getOrigin(url), false);
 
 },{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"b3SZR":[function(require,module,exports) {
@@ -1413,7 +1442,7 @@ const headerData = {
         {
             route: "views/sort",
             state: {
-                name: "sort"
+                name: "Sort"
             }
         },
         {
@@ -1426,6 +1455,6 @@ const headerData = {
     icon: ""
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}]},["dXqSh","bNKaB"], "bNKaB", "parcelRequire0d09")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}]},["2Ah9o","bNKaB"], "bNKaB", "parcelRequire0d09")
 
-//# sourceMappingURL=index.e753175e.js.map
+//# sourceMappingURL=index.0641b553.js.map

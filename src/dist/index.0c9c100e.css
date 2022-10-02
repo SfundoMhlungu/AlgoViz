@@ -1,12 +1,38 @@
 .header {
   height: 4em;
   width: 100vw;
-  background: #7cfc00;
+  background: #fff;
   display: flex;
 }
 
 .links a {
-  margin: 0 .5em;
+  color: #9698a6;
+  transition: color .3s ease-in-out;
+  position: relative;
+}
+
+a:not(:last-child) {
+  margin-right: 2em;
+}
+
+a:before {
+  content: "";
+  height: 5px;
+  opacity: 0;
+  background: linear-gradient(to right, #31d35c, #2bb7da);
+  transition: opacity .3s ease-in-out;
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+}
+
+a:hover {
+  color: #2d314d;
+}
+
+a:hover:before {
+  opacity: 1;
 }
 
 /*# sourceMappingURL=index.0c9c100e.css.map */

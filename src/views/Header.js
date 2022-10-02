@@ -54,11 +54,11 @@ export default Header = (data = undefined) => {
                     let a = {
                         attrs: {
                             class: "link",
-                            onclick: () => Pub.notify("view", {route: link.link, data: null}),
+                            onclick: () => Pub.notify("view", {route: link.route, data: null}),
                             href: "#"
 
                         },
-                        children: [link.name]
+                        children: [link.state.name]
                     }
 
                     return new Createlink(a)

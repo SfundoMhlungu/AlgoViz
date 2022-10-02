@@ -1,6 +1,7 @@
 import Canvas from "../components/Canvas"
 import { createElement } from "atomicus/lib/esm"
 import * as Comlink from "comlink"
+import Pub from "../Octopus"
 const wh = {width: "300px", height: "300px"}
 
 /**
@@ -85,7 +86,7 @@ async function init(){
 
     }
 
-
+  // on second reload it does not stop
    const i =  setInterval(() => {
        console.log("interval called am craxt")
     
@@ -161,7 +162,7 @@ async function initBubble(){
 
 
    const  b =  setInterval(() => {
-       console.log("bubble", b)
+    //    console.log("bubble", b)
     // 
             if(insertionDone){
                  console.log("insertion done")
@@ -174,8 +175,12 @@ async function initBubble(){
 
 }
 
+Pub.subscribe("sort", ()=> {
 init()
 initBubble()
+})
+
+
 
 
 function eachCanvasParent(canvas, title){
@@ -221,7 +226,9 @@ export default function Sort(data){
         attrs:{
             class: "grid-ish"
         },
-        children: [canvasWrapper(bubbleSort, "Bubble Sort - O**n"), canvasWrapper(insertionSort, "Insertion Sort O**n"), canvasWrapper(mergeSort, "")]
+        children: [canvasWrapper(bubbleSort, "Bubble Sort - O**n"), canvasWrapper(insertionSort, "Insertion Sort O**n")]
+
+        //
             
         
     }

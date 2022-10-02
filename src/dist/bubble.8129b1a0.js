@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"dXqSh":[function(require,module,exports) {
+})({"gr1mh":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
-var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "37cedcabe753175e";
+var HMR_ENV_HASH = "a8fb9c35fdafe466";
+module.bundle.HMR_BUNDLE_ID = "38f883778129b1a0";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
@@ -531,401 +531,56 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"bNKaB":[function(require,module,exports) {
+},{}],"j3i61":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _atomicus = require("atomicus");
-var _octopus = require("./Octopus");
-var _octopusDefault = parcelHelpers.interopDefault(_octopus);
-// views 
-var _views = require("./Views");
-const app = document.getElementById("app");
-const cache = new Map();
-// initial setup
-// clearEl(head)
-(0, _atomicus.clearEl)(app);
-// data.route, data.data
-const router = (data)=>{
-    console.log(data);
-    console.log(cache);
-    (0, _atomicus.clearEl)(app);
-    console.log("cache", cache.get(data.route));
-    if (cache.get(data.route)) {
-        app.appendChild(cache.get(data.route));
-        console.log("return early");
-        return;
-    }
-    switch(data.route){
-        case "views/sort":
-            const sortV = (0, _views.SortView)();
-            app.appendChild(sortV);
-            cache.set(data.route, sortV);
-            break;
-        case "views/graphs":
-            const searchV = (0, _views.SearchView)();
-            // console.log(searchV, "search view")
-            app.appendChild(searchV);
-            cache.set(data.route, searchV);
-            break;
-        default:
-            break;
-    }
-};
-router({
-    route: "views/sort"
-});
-(0, _octopusDefault.default).subscribe("view", (data)=>{
-    // console.log("da", data)
-    router(data);
-});
-
-},{"atomicus":"9iIp8","./Octopus":"2DffO","./Views":"cJpDI","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"9iIp8":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "clearEl", ()=>clearEl);
-parcelHelpers.export(exports, "createElement", ()=>createElement);
-parcelHelpers.export(exports, "PubSub", ()=>PubSub);
-function IsDom(element) {
-    return element instanceof Element;
-}
-function clearEl(el) {
-    while(el.firstChild)el.removeChild(el.firstChild);
-}
-function SetAttribs(node, attrs) {
-    for (const [key, val] of Object.entries(attrs)){
-        // for some weird reason set attribute set attribute sometimes fails events
-        if (key === "onclick" || key === "onselect") node.addEventListener("click", val);
-        else if (key === "onchange") node.addEventListener("input", val);
-        else node.setAttribute(key, val);
-    }
-}
-function createElement(node) {
-    if (typeof node == "string") return document.createTextNode(node);
-    if (IsDom(node)) return node;
-    const p = document.createElement(node.tag);
-    if (node.attrs) SetAttribs(p, node.attrs);
-    node && node.children && node.children.map(createElement).forEach(p.appendChild.bind(p));
-    return p;
-}
-class PubSub {
-    constructor(){
-        this.subscribers = {};
-    }
-    subscribe(channel, fn) {
-        if (!this.subscribers[channel]) this.subscribers[channel] = [];
-        this.subscribers[channel].push(fn);
-        return ()=>{
-            this.subscribers[channel] = this.subscribers[channel].filter((sf)=>sf !== fn);
-        };
-    }
-    notify(channel, ...data) {
-        if (!this.subscribers[channel]) throw new Error(`${channel} does not exist`);
-        this.subscribers[channel].forEach((fn)=>fn(...data));
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"2mdku":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"2DffO":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _atomicus = require("atomicus");
-const Pub = new (0, _atomicus.PubSub)();
-exports.default = Pub;
-
-},{"atomicus":"9iIp8","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"cJpDI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SortView", ()=>SortView);
-parcelHelpers.export(exports, "SearchView", ()=>SearchView);
-var _atomicus = require("atomicus");
-var _header = require("./views/Header");
-var _headerDefault = parcelHelpers.interopDefault(_header);
-var _sort = require("./views/Sort");
-var _sortDefault = parcelHelpers.interopDefault(_sort);
-var _search = require("./views/Search");
-var _searchDefault = parcelHelpers.interopDefault(_search);
-var _graphs = require("./views/Graphs");
-var _graphsDefault = parcelHelpers.interopDefault(_graphs);
-// models
-var _model = require("./Model");
-const head = document.getElementById("header");
-head.appendChild((0, _atomicus.createElement)((0, _headerDefault.default)((0, _model.headerData))));
-function SortView() {
-    return (0, _atomicus.createElement)((0, _sortDefault.default)());
-}
-function SearchView() {
-    return (0, _atomicus.createElement)((0, _graphsDefault.default)());
-}
-
-},{"atomicus":"9iIp8","./views/Header":"aJcVK","./views/Sort":"5hlOc","./views/Search":"8D5wM","./views/Graphs":"jpEkV","./Model":"b3SZR","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"aJcVK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _octopus = require("../Octopus");
-var _octopusDefault = parcelHelpers.interopDefault(_octopus);
-class Createlink {
-    constructor(a){
-        this.tag = "a", this.attrs = a.attrs, this.children = a.children;
-    }
-}
-exports.default = Header = (data)=>{
-    let { links , icon  } = data;
-    const con = {
-        tag: "div",
-        attrs: {
-            class: "grid-ish header"
-        },
-        children: [
-            {
-                tag: "div",
-                attrs: {
-                    class: "icon fl fl-ai-c"
-                },
-                children: [
-                    {
-                        tag: "div",
-                        attrs: {},
-                        children: [
-                            {
-                                tag: "h1",
-                                children: [
-                                    "AlgoViz"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                tag: "div",
-                attrs: {
-                    class: "links fl fl-ai-c"
-                },
-                children: links.map((link, i)=>{
-                    let a = {
-                        attrs: {
-                            class: "link",
-                            onclick: ()=>(0, _octopusDefault.default).notify("view", {
-                                    route: link.route,
-                                    data: null
-                                }),
-                            href: "#"
-                        },
-                        children: [
-                            link.state.name
-                        ]
-                    };
-                    return new Createlink(a);
-                })
-            }
-        ]
-    };
-    return con;
-};
-
-},{"../Octopus":"2DffO","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"5hlOc":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _canvas = require("../components/Canvas");
-var _canvasDefault = parcelHelpers.interopDefault(_canvas);
-var _esm = require("atomicus/lib/esm");
 var _comlink = require("comlink");
-const wh = {
-    width: "300px",
-    height: "300px"
-};
-/**
- * @type {HTMLCanvasElement}
- */ const bubbleSort = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
-/**
- * @type {HTMLCanvasElement}
- */ const insertionSort = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
-const mergeSort = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
-let firstinsertionPass = true;
-let insertionBarWidth = 0;
-const insertionCtx = insertionSort.getContext("2d");
-const bubbleCtx = bubbleSort.getContext("2d");
-// insertionCtx.fillRect(10, 10, 100, 100)
-insertionCtx.fillStyle = "#00001e";
-bubbleCtx.fillStyle = "#00001e";
-async function draw(s) {}
-async function init() {
-    let inte = null;
-    let insertionDone = false;
-    const s = _comlink.wrap(new Worker(require("ef3b80f7c5a715e5")));
-    // console.log(s.insertion, "s")
-    //  console.log(await new s())
-    //      const instance = await new s()
-    //      console.log(instance)
-    //      return;
-    //    console.log(s.initial(), "initial array")
-    /**
-    * @type {IteratorResult}
-    */ let v = await s.sorter.next();
-    if (firstinsertionPass) {
-        insertionBarWidth = insertionSort.clientWidth / v.value.length;
-        console.log("each bar width", insertionBarWidth);
+var _data = require("./data");
+var _dataDefault = parcelHelpers.interopDefault(_data);
+class bubbleSort {
+    constructor(){
+        this.array = (0, _dataDefault.default);
+        this.sorter = this.Sort();
+    // this.initial();
     }
-    async function update(int) {
-        if (!v.done) {
-            // console.log(v.value)
-            if (v.value == true) {
-                insertionDone = true;
-                //    one = one();
-                clearInterval(int);
-                return;
+    *Sort() {
+        // for(let i = 0; i < this.array.length; i++){
+        //     let current = this.array[i]
+        //     while(i > 0 && this.array[i] < this.array[i-1]){
+        //         this.array[i] =   this.array[i-1]
+        //         i--;
+        //         this.array[i] =  current
+        //         yield this.array
+        //     }
+        // }
+        let swaps = false;
+        for(let i = 0; i < this.array.length; i++){
+            for(let j = 0; j < this.array.length - i; j++)// console.log(l[j])
+            if (this.array[j] > this.array[j + 1]) {
+                swaps = true;
+                let temp = this.array[j];
+                this.array[j] = this.array[j + 1];
+                this.array[j + 1] = temp;
+                yield this.array;
             }
-            insertionCtx.clearRect(0, 0, insertionSort.clientWidth, insertionSort.clientHeight);
-            v.value.forEach((val, i)=>{
-                insertionCtx.fillRect(i * insertionBarWidth, insertionSort.clientHeight, insertionBarWidth - insertionBarWidth / 4, -(val * 13));
-            });
-            v = await s.sorter.next();
-        }
-    }
-    // on second reload it does not stop
-    const i = setInterval(()=>{
-        console.log("interval called am craxt");
-        if (insertionDone) {
-            console.log("insertion done");
-            clearInterval(i);
-        }
-        update(i);
-    }, 1);
-}
-let firstBubble = true;
-let bubbleW = 0;
-let BubbleDone = false;
-async function initBubble() {
-    let insertionDone = false;
-    const s = _comlink.wrap(new Worker(require("75c298847eda8e64")));
-    // console.log(s, "s")
-    //  console.log(await new s())
-    //      const instance = await new s()
-    //      console.log(instance)
-    //      return;
-    //    console.log(s.initial(), "initial array")
-    /**
-    * @type {IteratorResult}
-    */ let v = await s.sorter.next();
-    // console.log(v, "v bubble")
-    if (firstBubble) {
-        bubbleW = bubbleSort.clientWidth / v.value.length;
-        firstBubble = false;
-        console.log("each bar width", bubbleW);
-    }
-    async function update(int) {
-        if (!v.done) {
-            // console.log(v.value)
-            if (v.value == true) {
-                BubbleDone = true;
-                //    one = one();
-                console.log("yield is true bubble should be done");
-                clearInterval(int);
-                return;
+            if (!swaps) {
+                console.log("no swaps", i);
+                // console.log(l)
+                yield true;
             }
-            bubbleCtx.fillRect(10, 10, 100, 100);
-            bubbleCtx.clearRect(0, 0, insertionSort.clientWidth, insertionSort.clientHeight);
-            v.value.forEach((val, i)=>{
-                bubbleCtx.fillRect(i * bubbleW, bubbleSort.clientHeight, bubbleW - bubbleW / 4, -(val * 13));
-            });
-            v = await s.sorter.next();
+            swaps = false;
+            yield this.array;
         }
+        // yield this.array
+        yield true;
     }
-    const b = setInterval(()=>{
-        console.log("bubble", b);
-        // 
-        if (insertionDone) {
-            console.log("insertion done");
-            clearInterval(b);
-        }
-        update(b);
-    }, 1);
+    get Sorted() {
+        return this.sorter.next();
+    }
 }
-// init()
-// initBubble()
-function eachCanvasParent(canvas, title) {
-    return {
-        tag: "div",
-        attrs: {},
-        children: [
-            {
-                tag: "h3",
-                children: [
-                    title
-                ]
-            },
-            canvas
-        ]
-    };
-}
-function canvasWrapper(canvas, title) {
-    return {
-        tag: "div",
-        attrs: {
-            class: "fl fl-ai-c fl-jc-c sortCanvas"
-        },
-        children: [
-            eachCanvasParent(canvas, title)
-        ]
-    };
-}
-function Sort(data) {
-    return {
-        tag: "div",
-        attrs: {
-            class: "grid-ish"
-        },
-        children: [
-            canvasWrapper(bubbleSort, "Bubble Sort - O**n"),
-            canvasWrapper(insertionSort, "Insertion Sort O**n"),
-            canvasWrapper(mergeSort, "")
-        ]
-    };
-}
-exports.default = Sort;
+let r = new bubbleSort();
+_comlink.expose(r);
 
-},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","ef3b80f7c5a715e5":"8pmu4","75c298847eda8e64":"aTWsk","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"eE5PI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-function Canvas(data) {
-    return {
-        tag: "canvas",
-        attrs: {
-            width: data.width,
-            height: data.height
-        }
-    };
-}
-exports.default = Canvas;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"jUFlY":[function(require,module,exports) {
+},{"comlink":"ln7cn","./data":"FXgo0","@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}],"ln7cn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createEndpoint", ()=>createEndpoint);
@@ -1235,197 +890,56 @@ function generateUUID() {
     return new Array(4).fill(0).map(()=>Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)).join("-");
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"8pmu4":[function(require,module,exports) {
-let workerURL = require("./helpers/get-worker-url");
-let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "sel-insertSort.748b9a74.js" + "?" + Date.now();
-module.exports = workerURL(url, bundleURL.getOrigin(url), false);
-
-},{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"lwj1n":[function(require,module,exports) {
-"use strict";
-module.exports = function(workerUrl, origin, isESM) {
-    if (origin === self.location.origin) // If the worker bundle's url is on the same origin as the document,
-    // use the worker bundle's own url.
-    return workerUrl;
-    else {
-        // Otherwise, create a blob URL which loads the worker bundle with `importScripts`.
-        var source = isESM ? "import " + JSON.stringify(workerUrl) + ";" : "importScripts(" + JSON.stringify(workerUrl) + ");";
-        return URL.createObjectURL(new Blob([
-            source
-        ], {
-            type: "application/javascript"
-        }));
-    }
-};
-
-},{}],"28iTF":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return "/";
-}
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}],"aTWsk":[function(require,module,exports) {
-let workerURL = require("./helpers/get-worker-url");
-let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "bubble.8129b1a0.js" + "?" + Date.now();
-module.exports = workerURL(url, bundleURL.getOrigin(url), false);
-
-},{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"8D5wM":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-function Search(data) {
-    return {
-        tag: "div",
-        children: [
-            {
-                tag: "h1",
-                children: [
-                    "hello search"
-                ]
-            }
-        ]
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}],"hRL75":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
     };
-}
-exports.default = Search;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"jpEkV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _canvas = require("../components/Canvas");
-var _canvasDefault = parcelHelpers.interopDefault(_canvas);
-var _esm = require("atomicus/lib/esm");
-var _comlink = require("comlink");
-var _waitforSecs = require("../utils/waitforSecs");
-const wh = {
-    width: "300px",
-    height: "300px"
 };
-/**
- * @type {HTMLCanvasElement}
- */ const BFS = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
-const BFSctx = BFS.getContext("2d");
-// console.log(BFS)
-async function init() {
-    const BFSObject = _comlink.wrap(new Worker(require("a9cd42fc769a1b68")));
-    const initial = await BFSObject.initial;
-    let w = Math.round(300 / initial[0].length);
-    console.log(w);
-    console.log(initial, "initial graph"), initial.forEach((row, i)=>{
-        row.forEach((cell, j)=>{
-            BFSctx.fillStyle = cell.color;
-            BFSctx.fillRect(j * w, i * w, w, w);
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
         });
     });
-    async function update() {}
-//await Wait(1);
-}
-init();
-// apply DRY same as Sort code 
-function eachCanvasParent(canvas, title) {
-    return {
-        tag: "div",
-        attrs: {},
-        children: [
-            {
-                tag: "h3",
-                children: [
-                    title
-                ]
-            },
-            canvas
-        ]
-    };
-}
-function canvasWrapper(canvas, title) {
-    return {
-        tag: "div",
-        attrs: {
-            class: "fl fl-ai-c fl-jc-c sortCanvas"
-        },
-        children: [
-            eachCanvasParent(canvas, title)
-        ]
-    };
-}
-function Graphs(data) {
-    return {
-        tag: "div",
-        attrs: {
-            class: "grid-ish"
-        },
-        children: [
-            canvasWrapper(BFS, "Breadth First")
-        ]
-    };
-}
-exports.default = Graphs;
-
-},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","../utils/waitforSecs":"kPbm5","a9cd42fc769a1b68":"knkE2","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"kPbm5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Wait", ()=>Wait);
-const Wait = (seconds)=>{
-    return new Promise((resolve)=>{
-        const l = setTimeout(resolve, seconds * 1000);
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}],"knkE2":[function(require,module,exports) {
-let workerURL = require("./helpers/get-worker-url");
-let bundleURL = require("./helpers/bundle-url");
-let url = bundleURL.getBundleURL("4N41J") + "BFS.9457898d.js" + "?" + Date.now();
-module.exports = workerURL(url, bundleURL.getOrigin(url), false);
-
-},{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"b3SZR":[function(require,module,exports) {
+},{}],"FXgo0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "headerData", ()=>headerData);
-const headerData = {
-    links: [
-        {
-            route: "views/sort",
-            state: {
-                name: "sort"
-            }
-        },
-        {
-            route: "views/graphs",
-            state: {
-                name: "Graphs"
-            }
-        }
-    ],
-    icon: ""
-};
+function randomizeValue() {
+    var value = (1 + 10E-16) * Math.random();
+    if (value > 1.0) return 1.0;
+    return value;
+}
+function randF(min, max) {
+    if (max == null) {
+        max = min == null ? Number.MAX_VALUE : min;
+        min = 0.0;
+    }
+    if (min >= max) return;
+    return min + (max - min) * randomizeValue();
+}
+let data = new Array(100);
+for(let i = 0; i < data.length; i++)data[i] = Math.round(randF(10, 20));
+exports.default = data;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"2mdku"}]},["dXqSh","bNKaB"], "bNKaB", "parcelRequire0d09")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}]},["gr1mh","j3i61"], "j3i61", "parcelRequire0d09")
 
-//# sourceMappingURL=index.e753175e.js.map
+//# sourceMappingURL=bubble.8129b1a0.js.map
