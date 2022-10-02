@@ -36,6 +36,12 @@ const router = (data) => {
      console.log("cache", cache.get(data.route))
     
     if(cache.get(data.route)){
+        if(data.route=== "views/sort" && cache.get("views/graphs")){
+            // console.log("pauseing GRAPH")
+            Pub.notify("pauseGraph")
+        }else {
+            Pub.notify("graphs")
+        }
         app.appendChild(cache.get(data.route))
         console.log("return early")
         return;
@@ -44,11 +50,13 @@ const router = (data) => {
     switch (data.route) {
            case "views/sort":
               
-               
+              
                  Pub.notify("sort")
+              
                 const sortV = SortView()
                  app.appendChild(sortV)
                  cache.set(data.route, sortV);
+
                break;
             case "views/graphs":
              
@@ -68,11 +76,12 @@ const router = (data) => {
 }
 
 
-router({route: "views/sort"})
+router({route: "views/graphs"})
 // Pub.notify("graphs")
 
 Pub.subscribe("view", (data)=> {
     // console.log("da", data)
+    //    Pub.notify("pauseGraph")
       router(data)
 })
 

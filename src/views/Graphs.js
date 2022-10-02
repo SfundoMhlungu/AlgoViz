@@ -7,6 +7,8 @@ import Pub from "../Octopus"
 const wh = {width: "300px", height: "300px"}
 
 
+let pause = false;
+
 
 /**
  * @type {HTMLCanvasElement}
@@ -53,6 +55,11 @@ const BFSctx = BFS.getContext("2d")
    });
 
     async function update(){
+            if(!pause){
+                // console.log("graph is paused")
+               
+
+           
              let next = await BFSObject.BFSnext.next();
              if(next.done) {
                  console.log("BFS done")
@@ -69,9 +76,10 @@ const BFSctx = BFS.getContext("2d")
                     })
               });
              }
-             await Wait(.01);
+            }
+             await Wait(.020);
              await update();
-    }
+    }  
 
 
   update()
@@ -81,8 +89,16 @@ const BFSctx = BFS.getContext("2d")
  }
 
 
+Pub.subscribe("pauseGraph", () => pause = true)
+
 Pub.subscribe('graphs', ()=> {
-    init();
+    // console.log("graphs called")
+    if(pause){
+        pause = false
+    }else{
+        init();
+    }
+  
 })
 
  

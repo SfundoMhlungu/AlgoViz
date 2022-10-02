@@ -550,6 +550,9 @@ const router = (data)=>{
     (0, _atomicus.clearEl)(app);
     console.log("cache", cache.get(data.route));
     if (cache.get(data.route)) {
+        if (data.route === "views/sort" && cache.get("views/graphs")) // console.log("pauseing GRAPH")
+        (0, _octopusDefault.default).notify("pauseGraph");
+        else (0, _octopusDefault.default).notify("graphs");
         app.appendChild(cache.get(data.route));
         console.log("return early");
         return;
@@ -573,11 +576,12 @@ const router = (data)=>{
     }
 };
 router({
-    route: "views/sort"
+    route: "views/graphs"
 });
 // Pub.notify("graphs")
 (0, _octopusDefault.default).subscribe("view", (data)=>{
     // console.log("da", data)
+    //    Pub.notify("pauseGraph")
     router(data);
 });
 
@@ -1336,6 +1340,7 @@ const wh = {
     width: "300px",
     height: "300px"
 };
+let pause = false;
 /**
  * @type {HTMLCanvasElement}
  */ const BFS = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
@@ -1356,25 +1361,31 @@ async function init() {
         });
     });
     async function update() {
-        let next = await BFSObject.BFSnext.next();
-        if (next.done) {
-            console.log("BFS done");
-            return;
-        }
-        //  console.log(next)
-        if (Array.isArray(next.value) && !next.done) next.value.forEach((row, i)=>{
-            row.forEach((cell, j)=>{
-                BFSctx.fillStyle = cell.color;
-                BFSctx.fillRect(j * w, i * w, w, w);
+        if (!pause) {
+            // console.log("graph is paused")
+            let next = await BFSObject.BFSnext.next();
+            if (next.done) {
+                console.log("BFS done");
+                return;
+            }
+            //  console.log(next)
+            if (Array.isArray(next.value) && !next.done) next.value.forEach((row, i)=>{
+                row.forEach((cell, j)=>{
+                    BFSctx.fillStyle = cell.color;
+                    BFSctx.fillRect(j * w, i * w, w, w);
+                });
             });
-        });
-        await (0, _waitforSecs.Wait)(.01);
+        }
+        await (0, _waitforSecs.Wait)(.020);
         await update();
     }
     update();
 }
+(0, _octopusDefault.default).subscribe("pauseGraph", ()=>pause = true);
 (0, _octopusDefault.default).subscribe("graphs", ()=>{
-    init();
+    // console.log("graphs called")
+    if (pause) pause = false;
+    else init();
 });
 // apply DRY same as Sort code 
 function eachCanvasParent(canvas, title) {
