@@ -77,7 +77,7 @@ const BFSctx = BFS.getContext("2d")
               });
              }
             }
-             await Wait(.020);
+             await Wait(.1);
              await update();
     }  
 
