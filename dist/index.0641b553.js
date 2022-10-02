@@ -1376,7 +1376,7 @@ async function init() {
                 });
             });
         }
-        await (0, _waitforSecs.Wait)(.020);
+        await (0, _waitforSecs.Wait)(.1);
         await update();
     }
     update();
