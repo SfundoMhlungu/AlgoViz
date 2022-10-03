@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"5cq7L":[function(require,module,exports) {
+})({"1Rj8x":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "a8fb9c35fdafe466";
-module.bundle.HMR_BUNDLE_ID = "e2542b28efd6859e";
+module.bundle.HMR_BUNDLE_ID = "9f35d13cc1e9bbe3";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
@@ -531,11 +531,8 @@ function hmrAcceptRun(bundle, id) {
     acceptedAssets[id] = true;
 }
 
-},{}],"5JD73":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+},{}],"aBiMZ":[function(require,module,exports) {
 var _comlink = require("comlink");
-var _octopus = require("../../Octopus");
-var _octopusDefault = parcelHelpers.interopDefault(_octopus);
 const world = [
     [
         1,
@@ -620,9 +617,9 @@ const world = [
 ];
 const pathlokkUp = {};
 const path = [];
-class BFS {
+class DFS {
     constructor(){
-        this.BFSnext = this.BFS();
+        this.DFSnext = this.DFS();
         this.initial = this.init();
         this.startCell = {
             row: 3,
@@ -674,15 +671,26 @@ class BFS {
         //    }, 1000);
         return world;
     }
-    *BFS() {
+    *DFS() {
         //   console.log("calling BFS")
-        const queue = [
+        const stack = [
             this.startCell
         ];
         pathlokkUp[`${this.startCell.row}-${this.startCell.col}`] = this.startCell;
-        //  console.log(queue)
-        while(queue.length > 0){
-            let current = queue.shift();
+        //  console.log(stack)
+        while(stack.length > 0){
+            let current = stack.pop();
+            // function DFS(graph, root){
+            //     let stack = [root]
+            //     while(stack.length !== 0){
+            //         let current = stack.pop()
+            //          console.log(current)
+            //          // process the node here
+            //         graph[current].forEach(element => {
+            //           stack.push(element)
+            //         });
+            //     }
+            // }
             let neigbours = [
                 {
                     row: current.row - 1,
@@ -739,7 +747,7 @@ class BFS {
                     this.path = path;
                     yield true;
                 }
-                queue.push(n);
+                stack.push(n);
             }
             yield world;
         }
@@ -749,10 +757,10 @@ class BFS {
         return this.sorter.next();
     }
 }
-let BreadthSearch = new BFS();
-_comlink.expose(BreadthSearch);
+let DepthFirstSearch = new DFS();
+_comlink.expose(DepthFirstSearch);
 
-},{"comlink":"ln7cn","../../Octopus":"g5ROg","@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}],"ln7cn":[function(require,module,exports) {
+},{"comlink":"ln7cn"}],"ln7cn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createEndpoint", ()=>createEndpoint);
@@ -1092,58 +1100,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"g5ROg":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _atomicus = require("atomicus");
-const Pub = new (0, _atomicus.PubSub)();
-exports.default = Pub;
+},{}]},["1Rj8x","aBiMZ"], "aBiMZ", "parcelRequire0d09")
 
-},{"atomicus":"fesPq","@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}],"fesPq":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "clearEl", ()=>clearEl);
-parcelHelpers.export(exports, "createElement", ()=>createElement);
-parcelHelpers.export(exports, "PubSub", ()=>PubSub);
-function IsDom(element) {
-    return element instanceof Element;
-}
-function clearEl(el) {
-    while(el.firstChild)el.removeChild(el.firstChild);
-}
-function SetAttribs(node, attrs) {
-    for (const [key, val] of Object.entries(attrs)){
-        // for some weird reason set attribute set attribute sometimes fails events
-        if (key === "onclick" || key === "onselect") node.addEventListener("click", val);
-        else if (key === "onchange") node.addEventListener("input", val);
-        else node.setAttribute(key, val);
-    }
-}
-function createElement(node) {
-    if (typeof node == "string") return document.createTextNode(node);
-    if (IsDom(node)) return node;
-    const p = document.createElement(node.tag);
-    if (node.attrs) SetAttribs(p, node.attrs);
-    node && node.children && node.children.map(createElement).forEach(p.appendChild.bind(p));
-    return p;
-}
-class PubSub {
-    constructor(){
-        this.subscribers = {};
-    }
-    subscribe(channel, fn) {
-        if (!this.subscribers[channel]) this.subscribers[channel] = [];
-        this.subscribers[channel].push(fn);
-        return ()=>{
-            this.subscribers[channel] = this.subscribers[channel].filter((sf)=>sf !== fn);
-        };
-    }
-    notify(channel, ...data) {
-        if (!this.subscribers[channel]) throw new Error(`${channel} does not exist`);
-        this.subscribers[channel].forEach((fn)=>fn(...data));
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"hRL75"}]},["5cq7L","5JD73"], "5JD73", "parcelRequire0d09")
-
-//# sourceMappingURL=BFS.efd6859e.js.map
+//# sourceMappingURL=DFS.c1e9bbe3.js.map

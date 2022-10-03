@@ -1,15 +1,15 @@
 import * as Comlink from  "comlink"
-
+import Pub from "../../Octopus";
 const world = [
     
-    [1, 1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 0, 0, 0, 0],
     [1, 0, 0, 0, 1, 1, 1, 0],
-    [1, 0, 0, 0, 0, 0, 0, 1 ],
+    [1, 0, 0, 0, 0, 0, 0, 0 ],
     [1, 0, 0, 2, 1, 0, 0, 0],
     [1, 1, 1, 1, 1, 0, 0, 0],
     [1, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1, 1, 0],
-    [1, 3, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 0, 1, 1, 1, 0],
+    [1, 0, 0, 3, 0, 0, 0, 0],
 
 
 ]
@@ -25,31 +25,32 @@ class BFS{
       this.BFSnext =  this.BFS(); 
       this.initial = this.init();
       this.startCell ={row: 3, col: 3, color: "red", type: "start", parent: null}; 
+      this.path = []
     //  this.BFS()
   }
   
   init(){
-   world.forEach((row, i)=> {
-         row.forEach((colVal, j)=> {
-               if(colVal === 1){
-                    // wall 
-                    world[i][j] = {row: i, col: j, color: "black", type: "wall"}
-               }else if(colVal === 2){
-                   // start point 
-                   this.startCell = {row: i, col: j, color: "red", type: "start", parent: null}
-                   console.log(this.startCell, "this start cell")
-                   world[i][j] = this.startCell
-                
-               }else if(colVal === 3){
-                   world[i][j] = {row: i, col: j, color: "yellow", type: "target"}
+    world.forEach((row, i)=> {
+        row.forEach((colVal, j)=> {
+              if(colVal === 1){
+                   // wall 
+                   world[i][j] = {row: i, col: j, color: "#00001e", type: "wall"}
+              }else if(colVal === 2){
+                  // start point 
+                  this.startCell = {row: i, col: j, color: "#e77600", type: "start", parent: null}
+                  console.log(this.startCell, "this start cell")
+                  world[i][j] = this.startCell
+               
+              }else if(colVal === 3){
+                  world[i][j] = {row: i, col: j, color: "yellow", type: "target"}
 
 
-               }else{
-                world[i][j] = {row: i, col: j, color: "lightblue", type: "empty"}
-                   
-               }
-         })
-   })
+              }else{
+               world[i][j] = {row: i, col: j, color: "#b1b7d9", type: "empty"}
+                  
+              }
+        })
+  })
    
 //    setTimeout(() => {
 //     // this.BFS() 
@@ -129,7 +130,7 @@ class BFS{
             //   console.log('Look up', pathlokkUp[current.parent])
           
               current = pathlokkUp[current.parent]
-              current.color = "green"
+              current.color = "#21bd9d"
               if(current.type === "target"){
                
                 current.color = "yellow"
@@ -137,7 +138,7 @@ class BFS{
               yield world
           }
 
-          console.log(path, "path")
+        this.path = path
 
           yield true 
 

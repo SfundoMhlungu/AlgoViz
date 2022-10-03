@@ -1348,8 +1348,76 @@ let pause = false;
  * @type {HTMLCanvasElement}
  */ const DFS = (0, _esm.createElement)((0, _canvasDefault.default)(wh));
 const BFSctx = BFS.getContext("2d");
+const DFSctx = DFS.getContext("2d");
 // console.log(BFS)
+async function initDFS() {
+    let storeWorld = [];
+    const DFSObject = _comlink.wrap(new Worker(require("3652804b5000ad8f")));
+    const initial = await DFSObject.initial;
+    let w = Math.round(300 / initial[0].length);
+    initial.forEach((row, i)=>{
+        row.forEach((cell, j)=>{
+            DFSctx.fillStyle = cell.color;
+            DFSctx.fillRect(j * w, i * w, w, w);
+        });
+    });
+    async function update() {
+        if (!pause) {
+            // console.log("graph is paused")
+            let next = await DFSObject.DFSnext.next();
+            if (next.done) {
+                let p = await DFSObject.path;
+                let prev = {
+                    row: 3,
+                    col: 3,
+                    color: "#e77600",
+                    type: "start",
+                    parent: null
+                };
+                async function move() {
+                    let p_ = p.pop();
+                    //   console.log(current, "o")
+                    if (p.length > 0) {
+                        //   console.log("current", current)
+                        storeWorld[p_.row][p_.col] = {
+                            ...storeWorld[p_.row][p_.col],
+                            color: "#e77600"
+                        };
+                        storeWorld[prev.row][prev.col].color = "white";
+                        prev = storeWorld[p_.row][p_.col];
+                        storeWorld.forEach((row, i)=>{
+                            row.forEach((cell, j)=>{
+                                DFSctx.fillStyle = cell.color;
+                                DFSctx.fillRect(j * w, i * w, w, w);
+                            });
+                        });
+                    } else return;
+                    console.log("waited a sec");
+                    await (0, _waitforSecs.Wait)(.1);
+                    await move();
+                }
+                move();
+                return;
+            }
+            //  console.log(next)
+            if (Array.isArray(next.value) && !next.done) {
+                storeWorld = next.value;
+                next.value.forEach((row, i)=>{
+                    row.forEach((cell, j)=>{
+                        DFSctx.fillStyle = cell.color;
+                        DFSctx.fillRect(j * w, i * w, w, w);
+                    });
+                });
+            }
+        }
+        await (0, _waitforSecs.Wait)(.1);
+        await update();
+    }
+    update();
+// follow path
+}
 async function init() {
+    let storeWorld = [];
     const BFSObject = _comlink.wrap(new Worker(require("a9cd42fc769a1b68")));
     const initial = await BFSObject.initial;
     let w = Math.round(300 / initial[0].length);
@@ -1366,15 +1434,62 @@ async function init() {
             let next = await BFSObject.BFSnext.next();
             if (next.done) {
                 console.log("BFS done");
+                let p = await BFSObject.path;
+                let prev = {
+                    row: 3,
+                    col: 3,
+                    color: "#e77600",
+                    type: "start",
+                    parent: null
+                };
+                async function move() {
+                    let p_ = p.pop();
+                    //   console.log(current, "o")
+                    if (p.length > 0) {
+                        //   console.log("current", current)
+                        storeWorld[p_.row][p_.col] = {
+                            ...storeWorld[p_.row][p_.col],
+                            color: "#e77600"
+                        };
+                        storeWorld[prev.row][prev.col].color = "white";
+                        prev = storeWorld[p_.row][p_.col];
+                        storeWorld.forEach((row, i)=>{
+                            row.forEach((cell, j)=>{
+                                BFSctx.fillStyle = cell.color;
+                                BFSctx.fillRect(j * w, i * w, w, w);
+                            });
+                        });
+                    } else return;
+                    console.log("waited a sec");
+                    await (0, _waitforSecs.Wait)(.1);
+                    await move();
+                }
+                move();
+                //  p.reverse().forEach(async(p_, i)=> {
+                //         await Wait(2);
+                //        storeWorld[p_.row][p_.col] = {...storeWorld[p_.row][p_.col], color: "#e77600"}
+                //        storeWorld[prev.row][prev.col].color = "white"
+                //        prev = storeWorld[p_.row][p_.col] 
+                //        storeWorld.forEach((row, i) => {
+                //         row.forEach((cell, j)=> {
+                //             BFSctx.fillStyle = cell.color;
+                //             BFSctx.fillRect(j * w, i * w, w, w)
+                //         })
+                //      });
+                //  })
+                //  console.log(p, storeWorld, "path")
                 return;
             }
             //  console.log(next)
-            if (Array.isArray(next.value) && !next.done) next.value.forEach((row, i)=>{
-                row.forEach((cell, j)=>{
-                    BFSctx.fillStyle = cell.color;
-                    BFSctx.fillRect(j * w, i * w, w, w);
+            if (Array.isArray(next.value) && !next.done) {
+                storeWorld = next.value;
+                next.value.forEach((row, i)=>{
+                    row.forEach((cell, j)=>{
+                        BFSctx.fillStyle = cell.color;
+                        BFSctx.fillRect(j * w, i * w, w, w);
+                    });
                 });
-            });
+            }
         }
         await (0, _waitforSecs.Wait)(.1);
         await update();
@@ -1385,7 +1500,10 @@ async function init() {
 (0, _octopusDefault.default).subscribe("graphs", ()=>{
     // console.log("graphs called")
     if (pause) pause = false;
-    else init();
+    else {
+        init();
+        initDFS();
+    }
 });
 // apply DRY same as Sort code 
 function eachCanvasParent(canvas, title) {
@@ -1425,10 +1543,10 @@ function Graphs(data) {
             canvasWrapper(DFS, "Depth First Search")
         ]
     };
-}
+} //
 exports.default = Graphs;
 
-},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","../utils/waitforSecs":"kPbm5","a9cd42fc769a1b68":"aN4VI","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku","../Octopus":"2DffO"}],"kPbm5":[function(require,module,exports) {
+},{"../components/Canvas":"eE5PI","atomicus/lib/esm":"9iIp8","comlink":"jUFlY","../utils/waitforSecs":"kPbm5","a9cd42fc769a1b68":"aN4VI","@parcel/transformer-js/src/esmodule-helpers.js":"2mdku","../Octopus":"2DffO","3652804b5000ad8f":"2ebKW"}],"kPbm5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Wait", ()=>Wait);
@@ -1442,6 +1560,12 @@ const Wait = (seconds)=>{
 let workerURL = require("./helpers/get-worker-url");
 let bundleURL = require("./helpers/bundle-url");
 let url = bundleURL.getBundleURL("lPpKD") + "BFS.efd6859e.js" + "?" + Date.now();
+module.exports = workerURL(url, bundleURL.getOrigin(url), false);
+
+},{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"2ebKW":[function(require,module,exports) {
+let workerURL = require("./helpers/get-worker-url");
+let bundleURL = require("./helpers/bundle-url");
+let url = bundleURL.getBundleURL("lPpKD") + "DFS.c1e9bbe3.js" + "?" + Date.now();
 module.exports = workerURL(url, bundleURL.getOrigin(url), false);
 
 },{"./helpers/get-worker-url":"lwj1n","./helpers/bundle-url":"28iTF"}],"b3SZR":[function(require,module,exports) {
